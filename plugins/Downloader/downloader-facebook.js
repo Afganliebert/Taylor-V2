@@ -1,223 +1,105 @@
-import fetch from "node-fetch"
-import {
-    facebook
-} from "@xct007/frieren-scraper"
-import {
-    facebookdl
-} from '@bochilteam/scraper';
-import axios from "axios";
-import cheerio from "cheerio";
+/*
+wa.me/6282285357346
+github: https://github.com/sadxzyq
+Instagram: https://instagram.com/tulisan.ku.id
+ini wm gw cok jan di hapus
+*/
 
-let handler = async (m, {
-    conn,
-    args,
-    text,
-    usedPrefix,
-    command
-}) => {
-    let imgr = flaaa.getRandom()
+import axios from "axios"
+import cheerio from "cheerio"
 
-    let ends = [
-        "v1",
-        "v2",
-        "v3",
-        "v4"
-    ]
+let handler = async (m, { conn, command, args, text, usedPrefix }) => {
+let input = `[!] *wrong input*
+	
+Ex : ${usedPrefix + command} hd https://www.facebook.com/100010929794713/posts/1885825845125057/`
 
-    let [links, version, quality] = text.split(" ")
-    const msgg = `Input query!\n*Example:*\n*- ${usedPrefix + command}* link v1 sd/hd\n*- ${usedPrefix + command}* link v2 sd/hd\n*- ${usedPrefix + command}* link v3 sd/hd`
-    version = version || ends.getRandom()
-    quality = quality || ['hd', 'sd'].getRandom()
-    if (!(links && version && quality)) return conn.reply(m.chat, msgg, m)
+ let type = (args[0] || '').toLowerCase()
 
-    if (ends.includes(version)) {
-        if (version.toLowerCase() === "v1") {
-            try {
-                let results = await facebook.v1(links)
-                if (!(quality)) return conn.reply(m.chat, msgg, m)
-                let caption = `*[ F A C E B O O K ]*
+switch (type) {
+case 'hd':
+if (!args[1]) return m.reply(input)
+facebook(args[1]).then(res => {
+let cap = `*${res.description}*
 
-*Title:* ${results.title}
-*HD:* ${results.isHdAvailable}
-	`
-                let out
-                if (quality == "hd") {
-                    out = results.urls[0].hd ? results.urls[0].hd : (results.urls[1].sd ? results.urls[1].sd : giflogo)
-                }
-                if (quality == "sd") {
-                    out = results.urls[1].sd ? results.urls[1].sd : (results.urls[0].hd ? results.urls[0].hd : giflogo)
-                }
-                await m.reply(wait)
-                await conn.sendFile(m.chat, out, "", caption, m)
-            } catch (e) {
-                await m.reply(eror)
-            }
-        }
-        if (version.toLowerCase() === "v2") {
-            try {
-                let results = await FbDownload(links)
-                if (!(quality)) return conn.reply(m.chat, msgg, m)
-                let caption = `*[ F A C E B O O K ]*
+乂 *F A C E B O O K
+◃───────────▹
+*quality*: ${res.urls[0].quality}
+*url*: ${args[1]}
+◃───────────▹
+`
+conn.sendMessage(m.chat, { video: {url: res.urls[0].url }, caption: cap }, {quoted: m})
+}).catch(e => {
+m.reply('Error : ' + e)
+})
+break 
+case 'sd':
+if (!args[1]) return m.reply(input)
+facebook(args[1]).then(resu => {
+let cap = `*${resu.description}*
 
-*Title:* ${results.title}`
-
-                let out
-                if (quality == "hd") {
-                    out = results.links['Download High Quality'] ? results.links['Download High Quality'] : (results.links['Download Low Quality'] ? results.links['Download Low Quality'] : giflogo)
-                }
-                if (quality == "sd") {
-                    out = results.links['Download Low Quality'] ? results.links['Download Low Quality'] : (results.links['Download High Quality'] ? results.links['Download High Quality'] : giflogo)
-                }
-
-                await m.reply(wait)
-                await conn.sendFile(m.chat, out, "", caption, m)
-            } catch (e) {
-                await m.reply(eror)
-            }
-        }
-
-        if (version.toLowerCase() === "v3") {
-            try {
-                if (!(quality)) return conn.reply(m.chat, msgg, m)
-                const {
-                    result
-                } = await facebookdl(links);
-                const results = result;
-                let caption = `*[ F A C E B O O K ]*
-
-*Title:* ${results.title}`
-
-                let out
-                if (quality.toLowerCase() === "hd") {
-                    out = results.find(video => video.quality === "hd") ? results.find(video => video.quality === "hd") : (results.find(video => video.quality === "sd") ? results.find(video => video.quality === "sd") : giflogo)
-                }
-                if (quality.toLowerCase() == "sd") {
-                    out = results.find(video => video.quality === "sd") ? results.find(video => video.quality === "sd") : (results.find(video => video.quality === "hd") ? results.find(video => video.quality === "hd") : giflogo)
-                }
-
-                await m.reply(wait)
-                await conn.sendFile(m.chat, out, "", caption, m)
-            } catch (e) {
-                await m.reply(eror)
-            }
-        }
-        if (version.toLowerCase() === "v4") {
-            try {
-                let results = await facebookVideo(links)
-                if (!(quality)) return conn.reply(m.chat, msgg, m)
-                let caption = `*[ F A C E B O O K ]*
-
-*Duration:* ${results.duration}`
-                let out
-                if (quality == "hd") {
-                    out = results.result[0].url ? results.result[0].url : (results.result[1].url ? results.result[1].url : giflogo)
-                }
-                if (quality == "sd") {
-                    out = results.result[1].url ? results.result[1].url : (results.result[0].url ? results.result[0].url : giflogo)
-                }
-                await m.reply(wait)
-                await conn.sendFile(m.chat, out, "", caption, m)
-            } catch (e) {
-                await m.reply(eror)
-            }
-        }
-
-    }
+乂 *F A C E B O O K
+◃───────────▹
+*quality*: ${resu.urls[1].quality}
+*url*: ${args[1]}
+◃───────────▹
+`
+conn.sendMessage(m.chat, { video: {url: resu.urls[1].url }, caption: cap }, {quoted: m})
+}).catch(e => {
+m.reply('Error : ' + e)
+})
+break
+default:
+return await conn.reply(m.chat, `Type Facebook :
+    ⛒ sd
+    ⛒ hd
+    
+contoh: /facebook sd *Url*`, m)
 }
-handler.help = ["facebook"]
-handler.tags = ["downloader"]
-handler.alias = ["fb", "fbdl", "facebook", "facebookdl"]
-handler.command = /^((facebook|fb)(dl)?)$/i
+}
+handler.help = ['sd','hd'].map(v => `faceebook ${v}`)
+handler.tags = ['downloader']
+handler.command = /^(facebook|fbdl|fb|facebookdl)$/i
+handler.limit = true
+
 export default handler
 
-async function FbDownload(vid_url) {
-    try {
-        const data = {
-            url: vid_url
-        };
-        const searchParams = new URLSearchParams();
-        searchParams.append('url', data.url);
-        const response = await fetch('https://facebook-video-downloader.fly.dev/app/main.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: searchParams.toString(),
-        });
-        const responseData = await response.json();
-        return responseData;
-    } catch (e) {
-        return null;
-    }
+
+async function facebook(url) {
+   try {
+      let { data } = await axios.post("https://getmyfb.com/process", {
+         "id": url,
+         locale: "en"
+      }, {
+         headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": `PHPSESSID=k3eqo1f3rsq8fld57fgs9ck0q9; _token=1AHD0rRsiBSwwh7ypRad; __cflb=04dToeZfC9vebXjRcJCMjjSQh5PprejvCpooJf5xhb; _ga=GA1.2.193364307.1690654540; _gid=GA1.2.326360651.1690654544; _gat_UA-3524196-5=1; _ga_96G5RB4BBD=GS1.1.1690654539.1.0.1690654555.0.0.0`,
+            "Origin": "https://getmyfb.com",
+            "Referer": "https://getmyfb.com/",
+            "Hx-Current-Url": "https://getmyfb.com",
+            "Hx-Request": true,
+            "Hx-Target": "target",
+            "Hx-Trigger": "form",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.188"
+         }
+      })
+
+      let $ = cheerio.load(data)
+      let urls = []
+
+      $("ul > li").map((a, b) => {
+         urls.push({ quality: $(b).text().trim(), url: $(b).find("a").attr("href") })
+      })
+
+      let result = {
+         description: $("div.results-item > div.results-item-text").text().trim(),
+         urls
+      }
+
+      if (urls.length == 0) return $("h4").text()
+
+      return result
+   } catch (e) {
+      throw e
+   }
 }
-
-const baseURL = "https://fdownloader.net/id";
-const apiURL = "https://v3.fdownloader.net/api/ajaxSearch?lang=en";
-
-const facebookVideo = async (url) => {
-    try {
-        const {
-            data
-        } = await axios(baseURL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
-            },
-            data: new URLSearchParams(
-                Object.entries({
-                    recaptchaToken: "",
-                    q: url,
-                    t: "media",
-                    lang: "en",
-                })
-            ),
-        });
-        const $ = cheerio.load(data);
-        const script = $("body").find("script").text().trim();
-        const k_token = script.split("k_token = ")[1].split(";")[0];
-        const k_exp = script.split("k_exp = ")[1].split(";")[0];
-        const {
-            data: apiData
-        } = await axios(apiURL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
-            },
-            data: new URLSearchParams(
-                Object.entries({
-                    k_exp,
-                    k_token,
-                    q: url,
-                    lang: "en",
-                    web: "fdownloader.net",
-                    v: "v2",
-                    w: "",
-                })
-            ),
-        });
-        const $api = cheerio.load(apiData.data);
-        const result = [];
-        const duration = $api('div.clearfix > p').text().trim();
-        $api('div.tab__content')
-            .find('tbody > tr')
-            .each((index, element) => {
-                const quality = $api(element).find('td.video-quality').text();
-                const videoUrl = $api(element).find('td > a').attr('href');
-                if (quality && videoUrl) {
-                    result.push({
-                        quality,
-                        url: videoUrl,
-                    });
-                }
-            });
-        return {
-            duration,
-            result,
-        };
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
