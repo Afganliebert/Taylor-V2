@@ -1,50 +1,96 @@
-import fetch from 'node-fetch'
+/*
+wa.me/6282285357346
+github: https://github.com/sadxzyq
+Instagram: https://instagram.com/tulisan.ku.id
+ini wm gw cok jan di hapus
+*/
+import cheerio from 'cheerio'
+import axios from 'axios'
 
 let handler = async (m, {
     conn,
     text,
-    usedPrefix,
-    command
+    args,
+    command,
+    usedPrefix
 }) => {
-    if (!text) throw `Example: ${usedPrefix + command} https://vt.tiktok.com/ZS81qJD5v/`
+    let input = `[!] *wrong input*
+	
+Ex : ${usedPrefix + command} https://vt.tiktok.com/ZSFSqcuXb/`
+
+    if (!text) return m.reply(input)
+
     if (!(text.includes('http://') || text.includes('https://'))) return m.reply(`url invalid, please input a valid url. Try with add http:// or https://`)
     if (!text.includes('tiktok.com')) return m.reply(`Invalid Tiktok URL.`)
-    try {
-        let res = await fetch(`https://api.lolhuman.xyz/api/tiktokslide?apikey=${global.lolkey}&url=${text}`)
-        let anu = await res.json()
-        if (anu.status != '200') throw Error(anu.message)
-        anu = anu.result
-        if (anu.length == 0) throw Error('Error : no data')
-        let c = 0
-        for (let x of anu) {
-            if (c == 0) await conn.sendMessage(m.chat, {
-                image: {
-                    url: x
-                },
-                caption: `Mengirim 1 dari ${anu.length} slide gambar.\n_(Sisanya akan dikirim via chat pribadi.)_`
-            }, {
-                quoted: m
-            })
-            else await conn.sendMessage(m.sender, {
-                image: {
-                    url: x
-                }
-            }, {
-                quoted: m
-            })
-            c += 1
-        }
-    } catch (e) {
-        console.log(e)
-        throw `invalid slideshow url / media isn't available.`
+try {
+    const {
+        result
+    } = await tiktok(text);
+    m.reply(wait)
+    let no = 1
+    for (let i of result) {
+        await conn.sendFile(m.sender, i, '', `Gambar ke - ${no++}`, m)
+        await conn.delay(1000)
     }
+} catch (e) {
+throw eror
+}
 }
 
-handler.menu = ['tiktokslide <url>']
-handler.tags = ['search']
-handler.command = /^((tt|tiktok)slide)$/i
+handler.help = ['tiktokslide <url>']
+handler.tags = ['downloader']
+handler.command = /^(ttimg|tiktokimg|ttslide|tiktokslide)$/i
 
-handler.premium = true
+handler.register = true
 handler.limit = true
 
 export default handler
+
+
+async function tiktok(url) {
+    try {
+        const data = new URLSearchParams({
+            'id': url,
+            'locale': 'id',
+            'tt': 'RFBiZ3Bi'
+        });
+
+        const headers = {
+            'HX-Request': true,
+            'HX-Trigger': '_gcaptcha_pt',
+            'HX-Target': 'target',
+            'HX-Current-URL': 'https://ssstik.io/id',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36',
+            'Referer': 'https://ssstik.io/id'
+        };
+
+        const response = await axios.post('https://ssstik.io/abc?url=dl', data, {
+            headers
+        });
+        const html = response.data;
+
+        const $ = cheerio.load(html);
+
+        const author = $('#avatarAndTextUsual h2').text().trim();
+        const title = $('#avatarAndTextUsual p').text().trim();
+        const video = $('.result_overlay_buttons a.download_link').attr('href');
+        const audio = $('.result_overlay_buttons a.download_link.music').attr('href');
+        const imgLinks = [];
+        $('img[data-splide-lazy]').each((index, element) => {
+            const imgLink = $(element).attr('data-splide-lazy');
+            imgLinks.push(imgLink);
+        });
+
+        const result = {
+            author,
+            title,
+            result: video || imgLinks,
+            audio
+        };
+        return result
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
