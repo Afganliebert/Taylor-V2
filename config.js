@@ -130,29 +130,163 @@ async function loadConfig() {
         /** Thumbnail  **/
         global.hwaifu = ImgWaifu()
         global.hbeach = ImgCosplay()
-        global.thumbnailUrl = ImgBoneka()
+import {
+    watchFile,
+    unwatchFile
+} from "fs"
+import chalk from "chalk"
+import {
+    fileURLToPath
+} from "url"
+
+import moment from "moment-timezone"
+import colors from "colors"
+import pkg from '@whiskeysockets/baileys';
+
+const {
+    WA_DEFAULT_EPHEMERAL
+} = pkg;
+
+async function loadConfig() {
+    try {
+
+        /*custom colors for beautiful console.log()*/
+        colors.setTheme({
+            main: ['brightBlue', 'bold'],
+            silly: 'rainbow',
+            input: 'grey',
+            verbose: 'cyan',
+            prompt: 'grey',
+            info: 'green',
+            data: 'grey',
+            help: 'cyan',
+            warn: 'yellow',
+            debug: 'blue',
+            error: 'brightRed'
+        });
+
+        /*Oᴡɴᴇʀ number*/
+        global.owner = [
+            ["6283892075627", "️Afganliebert", true]
+        ]
+        global.mods = ["6283892075627"]
+        global.prems = ["6283892075627"]
+
+        /*Website*/
+        global.APIs = {
+            amel: "https://melcanz.com",
+            bg: "http://bochil.ddns.net",
+            dhnjing: "https://dhnjing.xyz",
+            dzx: "https://api.dhamzxploit.my.id",
+            fdci: "https://api.fdci.se",
+            hardianto: "https://hardianto.xyz",
+            lolhuman: "https://api.lolhuman.xyz",
+            neoxr: "https://api.neoxr.my.id",
+            pencarikode: "https://pencarikode.xyz",
+            xteam: "https://api.xteam.xyz",
+            xyro: "https://api.xyroinee.xyz",
+            zeks: "https://api.zeks.xyz",
+            zenz: "https://api.zahwazein.xyz",
+            btchx: "https://api.botcahx.biz.id"
+        }
+
+        /*Apikey*/
+        global.APIKeys = {
+            "https://api.neoxr.my.id": pickRandom(["5VC9rvNx", "lucycat"]),
+            "https://api.lolhuman.xyz": pickRandom(["043c5de3b7cd6b1b8f2a0f90", "e1a815979e6adfc071b7eafc", "ed78c137a46873c5b8e5fe3b", "IchanZX", "GataDios"]),
+            "https://api.xteam.xyz": "HIRO",
+            "https://api.xyroinee.xyz": "yqiBQF86F4",
+            "https://api.zeks.xyz": "apivinz",
+            "https://hardianto.xyz": "hardianto",
+            "https://melcanz.com": "manHkmst",
+            "https://pencarikode.xyz": "pais",
+            "https://api.zahwazein.xyz": "zenzkey_1ec92f71d3bb",
+            "https://api.botcahx.biz.id": "Admin"
+        }
+
+        /*Lolhuman*/
+        global.lolkey = pickRandom(["043c5de3b7cd6b1b8f2a0f90", "e1a815979e6adfc071b7eafc", "ed78c137a46873c5b8e5fe3b", "IchanZX", "GataDios"])
+        /*XyroineeApi*/
+        global.xyro = "yqiBQF86F4"
+
+        /*Number*/
+        global.nomorbot = "6283841896376"
+        global.nomorown = "6283892075627"
+        global.namebot = " ɴᴇᴏxʀ-ʙᴏᴛ "
+        global.nameown = "「 Afganliebert 」"
+
+        /* Random */
+        global.pmenus = pickRandom(["乂", "◈", "➭", "ଓ", "⟆•", "⳻", "•", "↬", "◈", "⭑", "ᯬ", "◉", "᭻", "»", "〆", "々", "⛥", "✗", "⚜", "⚚", "♪"])
+        global.htjava = pickRandom(["乂", "⛶", "❏", "⫹⫺", "☰", "⎔", "✦", "⭔", "⬟", "⛊", "⚝"])
+
+        /*Watermark*/
+        global.wm = "                「 ɴᴇᴏxʀ-ʙᴏᴛ⁩ 」"
+        global.wm2 = "꒷︶꒷꒥꒷ ‧₊˚ ꒰ฅ˘օառɛʀ˘ฅ ꒱ ‧₊˚꒷︶꒷꒥꒷"
+        global.wm3 = htjava + " ɴᴇᴏxʀ-ʙᴏᴛ"
+
+        /*Thumbnail*/
+        global.giflogo = VideoGalau()
+        global.fla = pickRandom(ImgLogoFlam())
+        global.flaaa = ImgLogoDynamic()
+
+        /*Link*/
+        global.sig = "https://www.instagram.com/afganliebert"
+        global.sgh = "https://www.github.com/afganliebert"
+        global.sgc = "https://saweria.co/afganliebert"
+        global.sdc = "https://www.discord.com/afganliebert"
+        global.snh = "https://www.tiktok.com/"
+        global.sfb = "https://www.facebook.com/"
+        global.syt = "https://www.youtube.com/"
+
+        /*Nsfw*/
+        global.premnsfw = true
+
+        /*Type*/
+        global.dpptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        global.ddocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        global.dxlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        global.dpdf = "application/pdf"
+        global.drtf = "text/rtf"
+
+        /*Fake*/
+        global.fsizedoc = SizeDoc()
+        global.fpagedoc = PageDoc()
+
+        /* Hiasan */
+        global.dmenut = htjava + "───『"
+        global.dmenub = "│" + pmenus
+        global.dmenub2 = "│" + pmenus
+        global.dmenuf = "╰──────────⳹"
+        global.dashmenu = "☰ *D A S B O A R D* ☰"
+        global.htki = htjava + "───『"
+        global.htka = "』───" + htjava
+
+        /* Thumbnail */
+        global.hwaifu = ImgWaifu()
+        global.hbeach = ImgCosplay()
+        global.thumbnailUrl = "https://telegra.ph/file/e66c9c3e097daea633dc4.jpg"
         global.hoppai = ImgCosplay()
         global.hloli = ImgCosplay()
         global.hyuri = ImgCosplay()
         global.hneko = ImgCosplay()
         global.hLokun = ImgCosplay()
         global.hbunny = ImgCosplay()
-        global.thumbs = ImgBoneka()
+        global.thumbs = "https://telegra.ph/file/e66c9c3e097daea633dc4.jpg"
         global.thumb = pickRandom(["https://minimalistic-wallpaper.demolab.com/?random", "https://picsum.photos/2560/1600", ImgEstetik()])
         global.imagebot = pickRandom(["https://minimalistic-wallpaper.demolab.com/?random", "https://picsum.photos/2560/1600", ImgMountain()])
         global.thumbdoc = pickRandom(["https://minimalistic-wallpaper.demolab.com/?random", "https://picsum.photos/2560/1600", ImgEstetik()])
-        global.logo = pickRandom(["https://minimalistic-wallpaper.demolab.com/?random", "https://picsum.photos/2560/1600", ImgMountain()])
+        global.logo = "https://telegra.ph/file/e66c9c3e097daea633dc4.jpg"
 
-        /** Begin  **/
+        /* Begin */
         global.ucapan = Pagi()
         global.ephemeral = WA_DEFAULT_EPHEMERAL
 
-        /** Global Random  **/
+        /* Global Random */
         global.doc = pickRandom(["application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/msword", "application/pdf", "text/rtf"])
 
         global.knimg = pickRandom(["https://minimalistic-wallpaper.demolab.com/?random", "https://picsum.photos/2560/1600", ImgMountain()])
 
-        /** Watermark  **/
+        /*Watermark*/
         global.lopr = "🅟"
         global.lolm = "Ⓛ"
         global.cmenut = htjava + "───『"
@@ -161,33 +295,33 @@ async function loadConfig() {
         global.cmenuf = "╰──────────⳹"
         global.cmenua = "\n⌕ ❙❘❙❙❘❙❚❙❘❙❙❚❙❘❙❘❙❚❙❘❙❙❚❙❘❙❙❘❙❚❙❘ ⌕\n     "
         global.emojis = pickRandom(["👑", "🎗", "️🗿", "🕹", "️💡", "🪄", "🎈", "🎊", "🔖", "📍", "❤", "‍🔥", "💤", "💭", "🕚", "💬", "🚩", "🎐", "🍃", "🌿", "🥀", "✨", "⚡", "☂️"])
-        global.packname = "𝑴𝒂𝒅𝒆 𝒃𝒚"
+        global.packname = ""
         global.stickpack = packname
-        global.author = "𝑻𝒂𝒚𝒍𝒐𝒓 乂 𝑾𝒖𝒅𝒚𝒔𝒐𝒇𝒕"
-        global.stickauth = author + "\nwa.me/" + nomorbot
+        global.author = " "
+        global.stickauth = author
         global.multiplier = 69
 
-        /** Pesan  **/
+        /*Pesan*/
         global.eror = "_*`Bot error ❌`*_";
         global.wait = "_*`Please wait ⏳`*_";
         global.render = "_*`Rendering 📍`*_";
 
-        global.webs = "https://s.id/Cerdasin62"
-        global.gcwangsaf = "https://chat.whatsapp.com/LqJoQr4IdBLAXsxd1PkNph"
+        global.webs = "https://saweria.co/afganliebert"
+        global.gcwangsaf = "https://chat.whatsapp.com/D7RyGfilhgyENY5Vm77fpi"
 
-        /** Donasi  **/
-        global.saweria = "https://saweria.com/wudysoft"
-        global.dana = "0887435373103"
-        global.pulsa = "082195322106"
-        global.trakteer = "https://trakteer.id/wudysoft"
-        global.paypal = "wudysoft@mail.com"
-        global.gopay = "082195322106"
-        global.pdana = "0887435373103"
-        global.povo = "082195322106"
-        global.pgopay = "082195322106"
-        global.ppulsa = "082195322106"
-        global.ppulsa2 = "082195322106"
-        global.psaweria = "https://saweria.com/Wudysoft"
+        /*Donasi*/
+        global.saweria = "https://saweria.com/afganliebert"
+        global.dana = "085742170358"
+        global.pulsa = "083892075628"
+        global.trakteer = "https://saweria.co/afganliebert"
+        global.paypal = "@mail.com"
+        global.gopay = "-"
+        global.pdana = "085742170358"
+        global.povo = "-"
+        global.pgopay = "-"
+        global.ppulsa = "083892075627"
+        global.ppulsa2 = "-"
+        global.psaweria = "https://saweria.com/afganliebert"
 
 
         /** Emoji  **/
