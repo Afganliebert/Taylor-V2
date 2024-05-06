@@ -12,7 +12,7 @@ let handler = async (m, {
     let name = await conn.getName(who)
 
     if (command == "creator") {
-        let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:WhatsApp;Saya Owner Taylor;Bot;;Md\nFN:Saya Owner Taylor Bot WhatsApp, Md\nNICKNAME:👑 Owner Taylor Bot\nORG:Wudy\nTITLE:soft\nitem1.TEL;waid=6282195322106:+62 821-9532-2106\nitem1.X-ABLabel:📞 Nomor Owner\nitem2.URL:https://s.id/Cerdasin62\nitem2.X-ABLabel:💬 More\nitem3.EMAIL;type=INTERNET:wudysoft@mail.com\nitem3.X-ABLabel:💌 Mail Owner TaylorBot\nitem4.ADR:;;🇮🇩 Indonesia;;;;\nitem4.X-ABADR:💬 More\nitem4.X-ABLabel:📍 Lokasi Saya\nBDAY;value=date:🔖 13 January 2001\nEND:VCARD`
+        let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:WhatsApp;Saya Owner Neoxr;Bot;;Md\nFN:Saya Owner Neoxr Bot WhatsApp, Md\nNICKNAME:👑 Owner Neoxr Bot\nORG:Afganliebert\nTITLE:soft\nitem1.TEL;waid=6283892075627:+62 838-9207-5627\nitem1.X-ABLabel:📞 Nomor Owner\nitem2.URL:https://linktr.ee/afganliebert\nitem2.X-ABLabel:💬 More\nitem3.EMAIL;type=INTERNET:https://instagram.com/afganliebert\nitem3.X-ABLabel:💌 Mail Owner NeoxrBot\nitem4.ADR:;;🇯🇵 Japan;;;;\nitem4.X-ABADR:💬 More\nitem4.X-ABLabel:📍 Lokasi Saya\nBDAY;value=date:🔖 13 January 2001\nEND:VCARD`
         let tag_own = await conn.sendMessage(m.chat, {
             contacts: {
                 displayName: wm,
@@ -38,7 +38,7 @@ let handler = async (m, {
         })
     }
     if (command == "pengembang") {
-        let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:;${author};;;\nFN:${author}\nORG:${author}\nTITLE:\nitem1.TEL;waid=6282195322106:+62 821-9532-2106\nitem1.X-ABLabel:${author}\nX-WA-BIZ-DESCRIPTION:${htjava} Nih pengembang ku kack yg mengaktifkan aq.\nX-WA-BIZ-NAME:${author}\nEND:VCARD`
+        let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:;${author};;;\nFN:${author}\nORG:${author}\nTITLE:\nitem1.TEL;waid=6283892075627:+62 838-9207-5627\nitem1.X-ABLabel:${author}\nX-WA-BIZ-DESCRIPTION:${htjava} Nih pengembang ku kack yg mengaktifkan aq.\nX-WA-BIZ-NAME:${author}\nEND:VCARD`
         let tag_own = await conn.sendMessage(m.chat, {
             contacts: {
                 displayName: wm,
@@ -70,9 +70,9 @@ let handler = async (m, {
                 (await conn.getName(item[0] + "@s.whatsapp.net")) || "Tidak diketahui",
                 "👑 Owner",
                 "Saya adalah Owner" || "Tidak diketahui",
-                "wudysoft@gmail.com",
+                "https://instagram.com/afganliebert",
                 "🇮🇩 Indonesia",
-                "🚀 https://aygemuy.github.io/",
+                "🚀 https://linktr.ee/afganliebert",
                 "👤 Gada pawang nih senggol dong 😔"
             ]);
 
